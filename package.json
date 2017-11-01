@@ -1,0 +1,23 @@
+{
+  "name": "ts-ant",
+  "version": "1.0.0",
+  "description": "ant simulation with typescript",
+  "main": "index.html",
+  "dependencies": {
+    "ts-loader": "^3.0.5",
+    "typescript": "^2.5.3",
+    "webpack": "^3.8.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "webpack --watch"
+  },
+  "keywords": [
+    "typscript",
+    "javascript",
+    "learning",
+    "ant"
+  ],
+  "author": "André Tarnowsky",
+  "license": "MIT"
+}
