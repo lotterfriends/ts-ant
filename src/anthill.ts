@@ -1,19 +1,18 @@
-import { Node } from "./node";
+import { Board } from "./board";
+import { DeadObject } from "./deadObject";
 
-export class Anthill extends Node {
+export class Anthill extends DeadObject {
 
     public static WIDTH: number = 20;
     public static HEIGHT: number = 20;
+    public static RADIUS: number = 10;
 
     constructor() {
-        super('div', 'anthill');
-        this.bootstrap();
+        super({ x: Board.WIDTH / 2, y: Board.HEIGHT / 2 }, Anthill.RADIUS)
+        this.addCls('anthill');
     }
 
     private bootstrap(): void {
-        this.addCls('center');
-        this.node.style.width = Anthill.WIDTH + 'px';
-        this.node.style.height = Anthill.HEIGHT + 'px';
     }
 
 }

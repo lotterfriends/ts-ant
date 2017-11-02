@@ -21,8 +21,8 @@ export class Node {
         this.node.removeChild(item);
     }
 
-    public addCls(cls: string): void {
-        this.node.classList.add(cls);
+    public addCls(...cls: string[]): void {
+        this.node.classList.add(...cls);
     }
 
     public destroy(): void {
