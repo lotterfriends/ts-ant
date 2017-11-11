@@ -8,7 +8,7 @@ export class Anthill extends DeadObject {
     public static RADIUS: number = 10;
 
     constructor() {
-        super({ x: Board.WIDTH / 2, y: Board.HEIGHT / 2 }, Anthill.RADIUS)
+        super({ x: 0, y: 0 }, Anthill.RADIUS)
         this.addCls('anthill');
     }
 

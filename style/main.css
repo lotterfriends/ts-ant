@@ -10,9 +10,12 @@ html {
     background-color: #fff;
 }
 
-
 .board {
     background: rgb(102, 55, 2);
+}
+
+.board * {
+    position: absolute;
 }
 
 .center {
@@ -22,8 +25,13 @@ html {
 	position: absolute;
 }
 
+.ant {
+    background-image: url('../img/ant3.svg');
+    background-size: 100%;
+}
+
+.ant,
 .anthill {
-    background-color: #000;
     border-radius: 50%;
 }
 

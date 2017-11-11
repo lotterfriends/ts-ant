@@ -3,8 +3,12 @@ import { BoardPosition } from "./boardPosition";
 
 export class MyAnt extends Ant {
 
-    constructor(position: BoardPosition, radius: number) {
-        super(position, radius);
+    constructor(angle: number) {
+        super(angle);
+    }
+
+    getTired() {
+        this.goToAnthill();
     }
 
 }

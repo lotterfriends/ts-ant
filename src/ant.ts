@@ -2,26 +2,29 @@ import { LivingObject } from "./livingObject";
 import { BoardObject } from "./boardObject";
 import { BoardPosition } from "./boardPosition";
 
-export class Ant extends LivingObject {
+export abstract class Ant extends LivingObject {
 
     public static WIDTH: number = 10;
     public static HEIGHT: number = 10;
     public static ENERGY: number = 500;
-    public static RANGE: number = 5000; x
+    public static RANGE: number = 5000;
+
     public static TURN_AROUND_SPEED: number = 5;
 
-    private angle: number;
+    protected speed: number = 5;
     private direction: number;
     private round: number;
     private currentRange: number = Ant.RANGE;
     private restDistance: number = 0;
     private cloud: number = 0;
-    private currentEnergy: number = Ant.ENERGY;
+    protected currentEnergy: number = Ant.ENERGY;
     private target: BoardObject;
     private turn: number = 0;
+    private tired: boolean = false;
 
-    constructor(position: BoardPosition, radius: number) {
-        super(position, radius);
+    constructor(angle?: number) {
+        super({ x: 0, y: 0 }, 5, 20, angle);
+        this.addCls('ant');
     }
 
     live(turn: number): void {
@@ -34,14 +37,35 @@ export class Ant extends LivingObject {
             this.destroy();
         }
 
-        if (this.turn != turn) {
-            console.log('something strange');
-        }
         this.turn++;
+        this.tired = this.currentRange <= Ant.RANGE / 3 * 2
+        if (this.tired) {
+            this.getTired();
+        }
 
-        // if (this.position.x > Board.WIDTH / 2)
+        if (this.currentRange > 0) {
+            this.go();
+        }
 
     }
 
+    rest() {
+        this.currentRange = Ant.RANGE;
+    };
+
+    go() {
+        super.go();
+        this.currentRange -= this.speed;
+    }
+
+    isTired(): boolean {
+        return this.tired;
+    }
+
+    goToAnthill() {
+        this.goToPosition({ x: 0, y: 0 });
+    }
+
+    abstract getTired(): void;
 
 }
