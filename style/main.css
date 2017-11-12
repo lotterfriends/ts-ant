@@ -30,12 +30,23 @@ html {
     background-size: 100%;
 }
 
-.ant,
 .anthill {
+    background-color: #000;
     border-radius: 50%;
 }
 
 .sugar {
     background: #fff;
     border-radius: 50%;
+}
+
+.viewRadius {
+    border: 1px solid #000;
+}
+.tired .viewRadius {
+    border-color: red;
+}
+
+.ant .sugar {
+    position: relative;
 }

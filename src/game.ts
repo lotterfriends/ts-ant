@@ -4,6 +4,8 @@ import { Anthill } from "./anthill";
 import { Sugar } from "./sugar";
 import { Ant } from "./ant";
 import { MyAnt } from "./myant";
+import { BoardObject } from "./boardObject";
+import { Keys } from "./keys";
 
 class Game extends Node {
 
@@ -15,6 +17,7 @@ class Game extends Node {
     private spawnDelay: number = 6;
     private maxAnts: number = 100;
     private turn: number = 0;
+    private pause: boolean = false;
 
     constructor() {
         super('div', 'game');
@@ -27,11 +30,14 @@ class Game extends Node {
 
     private bootstrap(): void {
         this.addItem(this.board.getNode());
+        this.sugar.push(new Sugar({ x: -200, y: 100 }));
+        this.sugar.push(new Sugar({ x: 100, y: 30 }));
+        this.sugar.push(new Sugar({ x: 90, y: -150 }));
+        this.sugar.push(new Sugar({ x: -190, y: -190 }));
         this.board.addItem(this.anthill.getNode());
-        this.board.addItem(new Sugar({ x: -200, y: 100 }).getNode());
-        this.board.addItem(new Sugar({ x: 100, y: 30 }).getNode());
-        this.board.addItem(new Sugar({ x: 90, y: -150 }).getNode());
-        this.board.addItem(new Sugar({ x: -190, y: -190 }).getNode());
+        for (let sugar of this.sugar) {
+            this.board.addItem(sugar.getNode());
+        }
         // var angle: number = 300.2;
         // while (this.ants.length < this.maxAnts) {
         //     var ant = new MyAnt(angle);
@@ -43,6 +49,15 @@ class Game extends Node {
         //     }
         // }
         document.body.appendChild(this.getNode());
+        this.initKeyboardListener();
+    }
+
+    private initKeyboardListener(): void {
+        document.addEventListener('keydown', (event) => {
+            if (event.which === Keys.P) {
+                this.pause = !this.pause;
+            }
+        });
     }
 
     /**
@@ -50,24 +65,64 @@ class Game extends Node {
      */
     private run(): void {
 
-        if (this.ants.length < this.maxAnts && this.turn % this.spawnDelay === 0) {
-            var ant = new MyAnt(this.currentAngle);
-            this.ants.push(ant);
-            this.board.addItem(ant.getNode());
-            this.currentAngle -= 7.2;
-            if (this.currentAngle < 0) {
-                this.currentAngle += 360;
-            }
-        }
+        if (!this.pause) {
 
-        for (let ant of this.ants) {
-            ant.live(this.turn);
-            if (ant.collidesdWith(this.anthill)) {
-                ant.rest();
+            if (this.ants.length < this.maxAnts && this.turn % this.spawnDelay === 0) {
+                var ant = new MyAnt(this.currentAngle);
+                this.ants.push(ant);
+                this.board.addItem(ant.getNode());
+                this.currentAngle -= 7.2;
+                if (this.currentAngle < 0) {
+                    this.currentAngle += 360;
+                }
             }
-        }
 
-        this.turn++;
+            for (let ant of this.ants) {
+                for (let sugar of this.sugar) {
+                    if (ant.sees(sugar)) {
+                        ant.seesSugar(sugar);
+                    }
+                    if (ant.collidesdWith(sugar)) {
+                        ant.reachSugar(sugar);
+                    }
+                }
+                let antLoad: BoardObject = ant.getLoad();
+                if (antLoad instanceof Sugar) {
+                    if (this.sugar.indexOf(antLoad) < 0) {
+                        this.sugar.push(antLoad);
+                        this.board.addItem(antLoad.getNode());
+                    }
+                }
+                // console.log(this.sugar);
+                if (antLoad) {
+                    antLoad.setPositionOnBoard(ant.getPosition());
+                }
+                if (ant.collidesdWith(this.anthill)) {
+
+                    ant.rest();
+                    ant.reachAnthill();
+                    // dropt at anthill
+                    if (antLoad) {
+                        if (antLoad && !ant.getLoad()) {
+                            if (antLoad instanceof Sugar) {
+                                this.sugar.splice(this.sugar.indexOf(antLoad));
+                                antLoad.destroy(ant);
+                            }
+                            // TODO: add points;
+                        }
+                    }
+                    // let antLoad: BoardObject = ant.getLoad();
+                    // if (antLoad) {
+                    //     antLoad.destroy();
+                    //     console.log(antLoad.getNode());
+                    //     // TODO: add points;
+                    // }
+                }
+                ant.live(this.turn);
+            }
+
+            this.turn++;
+        }
 
         window.requestAnimationFrame(() => {
             this.run();

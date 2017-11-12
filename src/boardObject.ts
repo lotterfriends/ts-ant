@@ -9,40 +9,42 @@ export class BoardObject extends Node {
     protected radius: number;
     protected angle: number;
 
-    constructor(position: BoardPosition, radius: number, viewRadius?: number, angle?: number) {
+    constructor(position?: BoardPosition, radius?: number, viewRadius?: number, angle?: number) {
         super('div', 'board-object');
-        this.node.style.width = radius * 2 + 'px';
-        this.node.style.height = radius * 2 + 'px';
         this.radius = radius;
+        this.setSize();
         if (viewRadius) {
             this.viewRadius = viewRadius;
         }
-        if (angle) {
-            this.setPositionAndAngleOnBoard(position, angle);
-        } else {
-            this.setPositionOnBoard(position);
+        if (position) {
+            if (angle) {
+                this.setPositionAndAngleOnBoard(position, angle);
+            } else {
+                this.setPositionOnBoard(position);
+            }
+        }
+        if (viewRadius) {
+            let viewRadiusObj: Node = new Node('span', 'viewRadius');
+            viewRadiusObj.addCls('center');
+            viewRadiusObj.getNode().style.width = viewRadius * 2 + 'px';
+            viewRadiusObj.getNode().style.height = viewRadius * 2 + 'px';
+            this.addItem(viewRadiusObj.getNode());
+        }
+    }
+
+    public setSize() {
+        if (this.radius) {
+            this.node.style.width = this.radius * 2 + 'px';
+            this.node.style.height = this.radius * 2 + 'px';
         }
     }
 
     public collidesdWith(otherBoardObject: BoardObject): boolean {
-        var rect1 = {
-            x: this.position.x,
-            y: this.position.y,
-            width: this.getSize(),
-            height: this.getSize()
-        };
+        return BoardObject.collision(this.position, this.getSize(), otherBoardObject.position, otherBoardObject.getSize());
+    }
 
-        var rect2 = {
-            x: otherBoardObject.position.x,
-            y: otherBoardObject.position.y,
-            width: otherBoardObject.getSize(),
-            height: otherBoardObject.getSize()
-        };
-
-        return rect1.x < rect2.x + rect2.width &&
-            rect1.x + rect1.width > rect2.x &&
-            rect1.y < rect2.y + rect2.height &&
-            rect1.height + rect1.y > rect2.y;
+    public sees(otherBoardObject: BoardObject): boolean {
+        return BoardObject.collision(this.position, this.viewRadius, otherBoardObject.position, otherBoardObject.getSize());
     }
 
     public setPositionAndAngleOnBoard(position: BoardPosition, angle: number) {
@@ -91,5 +93,24 @@ export class BoardObject extends Node {
         return this.radius * 2;
     }
 
+    public static collision(positionA: BoardPosition, sizeA: number, positionB: BoardPosition, sizeB: number): boolean {
+        var rect1 = {
+            x: positionA.x,
+            y: positionA.y,
+            width: sizeA,
+            height: sizeA
+        };
 
+        var rect2 = {
+            x: positionB.x,
+            y: positionB.y,
+            width: sizeB,
+            height: sizeB
+        };
+
+        return rect1.x < rect2.x + rect2.width &&
+            rect1.x + rect1.width > rect2.x &&
+            rect1.y < rect2.y + rect2.height &&
+            rect1.height + rect1.y > rect2.y;
+    }
 }
