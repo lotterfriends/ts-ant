@@ -13,5 +13,6 @@ export enum Keys {
     SPACE = 32,
     PAGE_UP = 33,
     PAGE_DOWN = 34,
-    P = 80
+    P = 80,
+    D = 68
 }

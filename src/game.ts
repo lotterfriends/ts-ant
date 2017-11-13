@@ -15,7 +15,7 @@ class Game extends Node {
     private sugar: Array<Sugar> = [];
     private ants: Array<Ant> = [];
     private spawnDelay: number = 6;
-    private maxAnts: number = 100;
+    private maxAnts: number = 50;
     private turn: number = 0;
     private pause: boolean = false;
 
@@ -56,6 +56,9 @@ class Game extends Node {
         document.addEventListener('keydown', (event) => {
             if (event.which === Keys.P) {
                 this.pause = !this.pause;
+            }
+            if (event.which === Keys.D) {
+                this.getNode().classList.toggle('debug');
             }
         });
     }
