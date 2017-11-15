@@ -20,11 +20,14 @@ export class Sugar extends DeadObject {
         if (this.amount === 1 && this.ants.length) {
             return;
         }
-        // console.log(this, this.amount);
         this.amount--;
-        this.radius -= 0.5;
+        if (this.radius <= 1) {
+            this.radius = 0;
+        } else {
+            this.radius -= 0.5;
+        }
         this.setSize();
-        return new Sugar(this.position, 4, 1, ant);
+        return new Sugar(this.position, 1, 1, ant);
     }
 
     public getAmount(): number {

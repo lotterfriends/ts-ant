@@ -13,17 +13,17 @@ export class BoardObject extends Node {
         super('div', 'board-object');
         this.radius = radius;
         this.setSize();
-        if (viewRadius) {
+        if (typeof viewRadius === 'number') {
             this.viewRadius = viewRadius;
         }
         if (position) {
-            if (angle) {
+            if (typeof angle === 'number') {
                 this.setPositionAndAngleOnBoard(position, angle);
             } else {
                 this.setPositionOnBoard(position);
             }
         }
-        if (viewRadius) {
+        if (typeof viewRadius === 'number') {
             let viewRadiusObj: Node = new Node('span', 'viewRadius');
             viewRadiusObj.addCls('center');
             viewRadiusObj.getNode().style.width = viewRadius * 2 + 'px';
@@ -33,7 +33,7 @@ export class BoardObject extends Node {
     }
 
     public setSize() {
-        if (this.radius) {
+        if (typeof this.radius === 'number') {
             this.node.style.width = this.radius * 2 + 'px';
             this.node.style.height = this.radius * 2 + 'px';
         }
