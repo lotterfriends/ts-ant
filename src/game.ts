@@ -3,6 +3,7 @@ import { Board } from "./board";
 import { Anthill } from "./anthill";
 import { Sugar } from "./sugar";
 import { Ant } from "./ant";
+import { Apple } from "./apple";
 import { MyAnt } from "./myant";
 import { BoardObject } from "./boardObject";
 import { Keys } from "./keys";
@@ -13,6 +14,7 @@ class Game extends Node {
     private board: Board = new Board();
     private anthill: Anthill = new Anthill();
     private sugar: Array<Sugar> = [];
+    private apples: Array<Apple> = [];
     private ants: Array<Ant> = [];
     private spawnDelay: number = 6;
     private maxAnts: number = 50;
@@ -30,13 +32,18 @@ class Game extends Node {
 
     private bootstrap(): void {
         this.addItem(this.board.getNode());
-        this.sugar.push(new Sugar({ x: -200, y: 100 }));
-        this.sugar.push(new Sugar({ x: 100, y: 30 }));
-        this.sugar.push(new Sugar({ x: 90, y: -150 }));
-        this.sugar.push(new Sugar({ x: -190, y: -190 }));
+        // Math.floor(Math.random() * -250) + 250  
+        this.sugar.push(new Sugar({ x: Board.randomNegative(20), y: Board.randomPositive(20) }));
+        this.sugar.push(new Sugar({ x: Board.randomPositive(20), y: Board.randomPositive(20) }));
+        this.sugar.push(new Sugar({ x: Board.randomPositive(20), y: Board.randomNegative(20) }));
+        this.sugar.push(new Sugar({ x: Board.randomNegative(20), y: Board.randomNegative(20) }));
+        // this.apples.push(new Apple({ x: Board.randomNegative(20), y: Board.randomNegative(50) }));
         this.board.addItem(this.anthill.getNode());
         for (let sugar of this.sugar) {
             this.board.addItem(sugar.getNode());
+        }
+        for (let apple of this.apples) {
+            this.board.addItem(apple.getNode());
         }
         // var angle: number = 300.2;
         // while (this.ants.length < this.maxAnts) {
@@ -81,6 +88,8 @@ class Game extends Node {
             }
 
             for (let ant of this.ants) {
+
+                // all sugar
                 for (let sugar of this.sugar) {
                     if (ant.sees(sugar)) {
                         ant.seesSugar(sugar);
@@ -89,6 +98,17 @@ class Game extends Node {
                         ant.reachSugar(sugar);
                     }
                 }
+
+                // all apples
+                for (let apple of this.apples) {
+                    if (ant.sees(apple)) {
+                        ant.seesApple(apple);
+                    }
+                    if (BoardObject.collision(ant.getPosition(), ant.getSize(), apple.getPosition(), apple.getRadius() / 2)) {
+                        ant.reachApple(apple);
+                    }
+                }
+
                 let antLoad: BoardObject = ant.getLoad();
                 if (antLoad instanceof Sugar) {
                     if (this.sugar.indexOf(antLoad) < 0) {
@@ -112,6 +132,9 @@ class Game extends Node {
                                 antLoad.destroy(ant);
                             }
                             // TODO: add points;
+                        }
+                        if (antLoad instanceof Apple) {
+                            antLoad.destroy();
                         }
                     }
                     // let antLoad: BoardObject = ant.getLoad();

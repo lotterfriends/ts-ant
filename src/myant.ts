@@ -1,6 +1,7 @@
 import { Ant } from "./ant";
 import { BoardPosition } from "./boardPosition";
 import { Sugar } from "./sugar";
+import { Apple } from "./apple";
 
 export class MyAnt extends Ant {
 
@@ -31,6 +32,15 @@ export class MyAnt extends Ant {
         }
         this.drop();
 
+    }
+
+    reachApple(apple: Apple) {
+        this.takeObject(apple);
+        this.goToAnthill();
+    }
+
+    seesApple(apple: Apple) {
+        this.goToTarget(apple);
     }
 
 }
