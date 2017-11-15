@@ -27,6 +27,7 @@ export abstract class LivingObject extends BoardObject {
 
     protected turnAround(): void {
         this.angle = this.angle - 180;
+        this.setPositionAndAngleOnBoard(this.position, this.angle);
     }
 
     protected goToTarget(boardObject: BoardObject): void {

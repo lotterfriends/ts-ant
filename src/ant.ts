@@ -96,6 +96,9 @@ export abstract class Ant extends LivingObject {
     }
 
     takeObject(boardObject: BoardObject) {
+        if (!boardObject.collidesdWith(this)) {
+            return;
+        }
         if (this.currentLoad) {
             this.drop();
         }

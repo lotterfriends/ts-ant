@@ -40,7 +40,7 @@ export class BoardObject extends Node {
     }
 
     public collidesdWith(otherBoardObject: BoardObject): boolean {
-        return BoardObject.collision(this.position, this.getSize(), otherBoardObject.position, otherBoardObject.getSize());
+        return BoardObject.collision(this.position, this.radius, otherBoardObject.position, otherBoardObject.radius);
     }
 
     public sees(otherBoardObject: BoardObject): boolean {
