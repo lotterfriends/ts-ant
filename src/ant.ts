@@ -2,6 +2,7 @@ import { LivingObject } from "./livingObject";
 import { BoardObject } from "./boardObject";
 import { BoardPosition } from "./boardPosition";
 import { Sugar } from "./sugar";
+import { Apple } from "./apple";
 import { Anthill } from "./anthill";
 
 export abstract class Ant extends LivingObject {
@@ -36,6 +37,10 @@ export abstract class Ant extends LivingObject {
         }
         if (this.currentLoad instanceof Sugar) {
             this.speed = 0.5;
+        }
+
+        if (this.currentLoad instanceof Apple) {
+            this.speed = 0.1;
         }
     }
 
@@ -91,6 +96,9 @@ export abstract class Ant extends LivingObject {
             // if (this.position == Anthill.POSITION) {
             //     this.currentLoad.destroy();
             // }
+            if (this.currentLoad instanceof Apple) {
+                this.currentLoad.stopCarrying(this);
+            }
             this.currentLoad = undefined;
         }
     }
@@ -103,8 +111,11 @@ export abstract class Ant extends LivingObject {
             this.drop();
         }
         if (boardObject instanceof Sugar) {
-            this.currentLoad = (boardObject as Sugar).reduce(this);
-            // this.addItem(this.currentLoad.getNode());
+            this.currentLoad = boardObject.reduce(this);
+        }
+        if (boardObject instanceof Apple) {
+            this.currentLoad = boardObject;
+            boardObject.carry(this);
         }
     }
 
@@ -113,6 +124,8 @@ export abstract class Ant extends LivingObject {
     }
 
     abstract getTired(): void;
+    abstract seesApple(apple: Apple): void;
+    abstract reachApple(apple: Apple): void;
     abstract seesSugar(suger: Sugar): void;
     abstract reachSugar(suger: Sugar): void;
     abstract reachAnthill(): void;

@@ -48,4 +48,12 @@ export class Board extends Node {
             position.y === halfBoardHeight * -1 || position.y === halfBoardHeight;
     }
 
+    public static randomNegative(padding: number = 0): number {
+        return 0 - this.randomPositive(padding);
+    }
+
+    public static randomPositive(padding: number = 0): number {
+        return Math.floor(Math.random() * (Board.WIDTH / 2 - padding)) + 0;
+    }
+
 }
