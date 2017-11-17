@@ -16,13 +16,14 @@ export abstract class LivingObject extends BoardObject {
     }
 
     go() {
+        let tmpAngle = this.angle;
         if (Board.atTheEdge(this.position)) {
-            this.angle = this.angle - 90;
+            tmpAngle = tmpAngle - 90;
         }
-        let arc: number = Math.PI * this.angle / 180.0
+        let arc: number = Math.PI * tmpAngle / 180.0
         this.position.x = (Math.cos(arc) * this.speed) + this.position.x;
         this.position.y = (Math.sin(arc) * this.speed) + this.position.y;
-        this.setPositionOnBoard(this.position);
+        this.setPositionAndAngleOnBoard(this.position, tmpAngle);
     }
 
     protected turnAround(): void {
