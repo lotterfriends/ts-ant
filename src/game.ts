@@ -32,12 +32,11 @@ class Game extends Node {
 
     private bootstrap(): void {
         this.addItem(this.board.getNode());
-        // Math.floor(Math.random() * -250) + 250  
         this.sugar.push(new Sugar({ x: Board.randomNegative(20), y: Board.randomPositive(20) }));
         this.sugar.push(new Sugar({ x: Board.randomPositive(20), y: Board.randomPositive(20) }));
         this.sugar.push(new Sugar({ x: Board.randomPositive(20), y: Board.randomNegative(20) }));
         this.sugar.push(new Sugar({ x: Board.randomNegative(20), y: Board.randomNegative(20) }));
-        // this.apples.push(new Apple({ x: Board.randomNegative(20), y: Board.randomNegative(50) }));
+        this.apples.push(new Apple({ x: Board.randomNegative(20), y: Board.randomNegative(50) }));
         this.board.addItem(this.anthill.getNode());
         for (let sugar of this.sugar) {
             this.board.addItem(sugar.getNode());
@@ -104,7 +103,8 @@ class Game extends Node {
                     if (ant.sees(apple)) {
                         ant.seesApple(apple);
                     }
-                    if (BoardObject.collision(ant.getPosition(), ant.getSize(), apple.getPosition(), apple.getRadius() / 2)) {
+                    // one, so they have to reach the center
+                    if (BoardObject.collision(ant.getPosition(), ant.getSize(), apple.getPosition(), 1)) {
                         ant.reachApple(apple);
                     }
                 }
@@ -116,10 +116,17 @@ class Game extends Node {
                         this.board.addItem(antLoad.getNode());
                     }
                 }
-                // console.log(this.sugar);
+
                 if (antLoad) {
-                    antLoad.setPositionOnBoard(ant.getPosition());
+                    if (antLoad instanceof Apple) {
+                        if (antLoad.getCarrier()[0]) {
+                            antLoad.setPositionOnBoard(antLoad.getCarrier()[0].getPosition());
+                        }
+                    } else {
+                        antLoad.setPositionOnBoard(ant.getPosition());
+                    }
                 }
+
                 if (ant.collidesdWith(this.anthill)) {
 
                     ant.rest();
@@ -129,6 +136,10 @@ class Game extends Node {
                         if (antLoad && !ant.getLoad()) {
                             if (antLoad instanceof Sugar) {
                                 this.sugar.splice(this.sugar.indexOf(antLoad));
+                                antLoad.destroy(ant);
+                            }
+                            if (antLoad instanceof Apple) {
+                                this.apples.splice(this.apples.indexOf(antLoad));
                                 antLoad.destroy(ant);
                             }
                             // TODO: add points;

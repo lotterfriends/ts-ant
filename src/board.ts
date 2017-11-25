@@ -56,4 +56,8 @@ export class Board extends Node {
         return Math.floor(Math.random() * (Board.WIDTH / 2 - padding)) + 0;
     }
 
+    public static getRandomAngle(): number {
+        return Math.floor(Math.random() * 360);
+    }
+
 }

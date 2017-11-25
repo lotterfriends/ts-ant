@@ -26,7 +26,11 @@ export abstract class LivingObject extends BoardObject {
     }
 
     protected turnAround(): void {
-        this.angle = this.angle - 180;
+        this.rotate(180);
+    }
+
+    protected rotate(angle: number): void {
+        this.angle = this.angle - angle;
         this.setPositionAndAngleOnBoard(this.position, this.angle);
     }
 
@@ -58,7 +62,7 @@ export abstract class LivingObject extends BoardObject {
         if (this.getPosition().x > position.x && this.getPosition().y < position.y) {
             direction = 180 - direction;
         }
-        this.rotate(direction);
+        this.viewInDirection(direction);
     }
 
     abstract live(turn: number): void;

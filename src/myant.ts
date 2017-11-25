@@ -2,6 +2,7 @@ import { Ant } from "./ant";
 import { BoardPosition } from "./boardPosition";
 import { Sugar } from "./sugar";
 import { Apple } from "./apple";
+import { Board } from "./board";
 
 export class MyAnt extends Ant {
 
@@ -30,17 +31,24 @@ export class MyAnt extends Ant {
         if (this.getLoad() instanceof Sugar) {
             this.turnAround();
         }
+        if (this.getLoad() instanceof Apple) {
+            this.rotate(Board.getRandomAngle());
+        }
         this.drop();
 
     }
 
     reachApple(apple: Apple) {
-        this.takeObject(apple);
-        this.goToAnthill();
+        if (!this.getLoad() && apple.getCarrier().length < 5) {
+            this.takeObject(apple);
+            this.goToAnthill();
+        }
     }
 
     seesApple(apple: Apple) {
-        this.goToTarget(apple);
+        if (!this.getLoad() && apple.getCarrier().length < 5) {
+            this.goToTarget(apple);
+        }
     }
 
 }

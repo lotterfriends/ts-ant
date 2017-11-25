@@ -66,7 +66,7 @@ export class BoardObject extends Node {
         }
     }
 
-    public rotate(angle: number) {
+    public viewInDirection(angle: number) {
         this.angle = angle;
         var transform = this.getNode().style.transform;
         var translateMatches = transform.match(/(translate\(.*?\))/g);

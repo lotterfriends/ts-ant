@@ -21,4 +21,13 @@ export class Apple extends DeadObject {
     public getCarrier(): Array<Ant> {
         return this.carrier;
     }
+
+    public destroy(ant?: Ant): void {
+        if (this.carrier.length) {
+            this.carrier.splice(this.carrier.indexOf(ant));
+        }
+        if (!this.carrier.length) {
+            super.destroy();
+        }
+    }
 }

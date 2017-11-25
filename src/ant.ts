@@ -25,6 +25,7 @@ export abstract class Ant extends LivingObject {
     private turn: number = 0;
     private tired: boolean = false;
     private currentLoad: BoardObject;
+    private maxSpeed: number = 1;
 
     constructor(angle?: number) {
         super({ x: 0, y: 0 }, 5, 20, angle);
@@ -40,7 +41,14 @@ export abstract class Ant extends LivingObject {
         }
 
         if (this.currentLoad instanceof Apple) {
-            this.speed = 0.1;
+            if (this.currentLoad.getCarrier().length > 1) {
+                this.speed = this.currentLoad.getCarrier().length * 0.1
+            } else {
+                this.speed = 0.1;
+            }
+        }
+        if (this.speed > this.maxSpeed) {
+            this.speed = this.maxSpeed;
         }
     }
 
