@@ -10,7 +10,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "webpack --watch"
+    "watch": "webpack --watch",
+    "postcheckout": "git update-index --assume-unchanged bundle.js"
   },
   "keywords": [
     "typscript",
@@ -19,5 +20,8 @@
     "ant"
   ],
   "author": "André Tarnowsky",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "husky": "^0.14.3"
+  }
 }

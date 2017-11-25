@@ -26,8 +26,9 @@ html {
 }
 
 .ant {
-    background-image: url('../img/ant.svg');
-    background-size: 100%;
+    /* background-image: url('../img/ant.svg'); */
+     background-image: url('../img/ant1.gif');
+    background-size: cover;
 }
 
 .apple {
@@ -41,9 +42,11 @@ html {
 .anthill {
     background-color: #402200;
     border-radius: 50%;
+    box-shadow: 0 0 10px #000 inset, 0 0 5px #402200;
 }
 
 .sugar {
+    box-shadow: 0 0 3px #fff;
     background: #fff;
     border-radius: 50%;
 }
