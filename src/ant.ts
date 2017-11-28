@@ -30,6 +30,13 @@ export abstract class Ant extends LivingObject {
     constructor(angle?: number) {
         super({ x: 0, y: 0 }, 5, 20, angle);
         this.addCls('ant');
+        this.initMouseListener();
+    }
+
+    private initMouseListener(): void {
+        this.getNode().addEventListener('click', (event) => {
+            console.log('Speed', this.speed);
+        });
     }
 
     private setSpeed() {
@@ -42,9 +49,9 @@ export abstract class Ant extends LivingObject {
 
         if (this.currentLoad instanceof Apple) {
             if (this.currentLoad.getCarrier().length > 1) {
-                this.speed = this.currentLoad.getCarrier().length * 0.1
+                this.speed = this.currentLoad.getCarrier().length * 0.05
             } else {
-                this.speed = 0.1;
+                this.speed = 0.05;
             }
         }
         if (this.speed > this.maxSpeed) {

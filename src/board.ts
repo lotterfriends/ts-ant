@@ -1,5 +1,6 @@
 import { Node } from "./node";
 import { BoardPosition } from "./boardPosition";
+import { BoardObject } from "./boardObject";
 
 export class Board extends Node {
 
@@ -54,6 +55,13 @@ export class Board extends Node {
 
     public static randomPositive(padding: number = 0): number {
         return Math.floor(Math.random() * (Board.WIDTH / 2 - padding)) + 0;
+    }
+
+    public static randomPosition(padding: number = 0): BoardPosition {
+        return {
+            x: ((Math.random() * 1) > .5) ? Board.randomPositive(padding) : Board.randomNegative(padding),
+            y: ((Math.random() * 1) > .5) ? Board.randomPositive(padding) : Board.randomNegative(padding),
+        }
     }
 
     public static getRandomAngle(): number {

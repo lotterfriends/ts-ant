@@ -7,6 +7,7 @@ import { Apple } from "./apple";
 import { MyAnt } from "./myant";
 import { BoardObject } from "./boardObject";
 import { Keys } from "./keys";
+import { Bug } from "./bug";
 
 class Game extends Node {
 
@@ -16,6 +17,7 @@ class Game extends Node {
     private sugar: Array<Sugar> = [];
     private apples: Array<Apple> = [];
     private ants: Array<Ant> = [];
+    private bugs: Array<Bug> = [];
     private spawnDelay: number = 6;
     private maxAnts: number = 50;
     private turn: number = 0;
@@ -37,12 +39,16 @@ class Game extends Node {
         this.sugar.push(new Sugar({ x: Board.randomPositive(20), y: Board.randomNegative(20) }));
         this.sugar.push(new Sugar({ x: Board.randomNegative(20), y: Board.randomNegative(20) }));
         this.apples.push(new Apple({ x: Board.randomNegative(20), y: Board.randomNegative(50) }));
+        this.bugs.push(new Bug());
         this.board.addItem(this.anthill.getNode());
         for (let sugar of this.sugar) {
             this.board.addItem(sugar.getNode());
         }
         for (let apple of this.apples) {
             this.board.addItem(apple.getNode());
+        }
+        for (let bug of this.bugs) {
+            this.board.addItem(bug.getNode());
         }
         // var angle: number = 300.2;
         // while (this.ants.length < this.maxAnts) {

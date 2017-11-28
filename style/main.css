@@ -26,18 +26,25 @@ html {
 }
 
 .ant {
-    /* background-image: url('../img/ant.svg'); */
-     background-image: url('../img/ant1.gif');
+    background-image: url('../img/ant.svg');
+     /* background-image: url('../img/ant1.gif'); */
     background-size: cover;
 }
 
 .apple {
-    opacity: .3;
+    opacity: .9;
     background-color: green;
     border-radius: 50%;
     z-index: 3;
     box-shadow: 0 0 25px #174417 inset;
 }
+
+.bug {
+    background-color: red;
+    border-radius: 50%;
+    z-index: 3;
+}
+
 
 .anthill {
     background-color: #402200;
