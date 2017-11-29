@@ -40,9 +40,8 @@ html {
 }
 
 .bug {
-    background-color: red;
-    border-radius: 50%;
-    z-index: 3;
+    background-image: url('../img/bug.svg');
+    background-size: cover;
 }
 
 

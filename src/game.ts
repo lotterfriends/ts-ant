@@ -164,6 +164,10 @@ class Game extends Node {
                 ant.live(this.turn);
             }
 
+            for (let bug of this.bugs) {
+                bug.live(this.turn);
+            }
+
             this.turn++;
         }
 
