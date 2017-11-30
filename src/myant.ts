@@ -3,6 +3,7 @@ import { BoardPosition } from "./boardPosition";
 import { Sugar } from "./sugar";
 import { Apple } from "./apple";
 import { Board } from "./board";
+import { Bug } from "./bug";
 
 export class MyAnt extends Ant {
 
@@ -49,6 +50,14 @@ export class MyAnt extends Ant {
         if (!this.getLoad() && apple.getCarrier().length < 5) {
             this.goToTarget(apple);
         }
+    }
+
+    seesBug(bug: Bug) {
+        this.turnAround();
+    }
+
+    reachBug(bug: Bug) {
+        this.turnAround();
     }
 
 }

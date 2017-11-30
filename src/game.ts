@@ -94,6 +94,19 @@ class Game extends Node {
 
             for (let ant of this.ants) {
 
+                if (ant.isDead()) {
+                    this.ants.splice(this.ants.indexOf(ant));
+                    continue;
+                }
+
+                if (ant.getEngery() <= 0) {
+                    console.log(ant);
+                    this.ants.splice(this.ants.indexOf(ant));
+                    ant.destroy();
+                    continue;
+                    // TODO: decrease points
+                }
+
                 // all sugar
                 for (let sugar of this.sugar) {
                     if (ant.sees(sugar)) {
@@ -165,6 +178,17 @@ class Game extends Node {
             }
 
             for (let bug of this.bugs) {
+
+                for (let ant of this.ants) {
+                    if (bug.sees(ant)) {
+                        bug.seesAnt(ant);
+                        ant.seesBug(bug);
+                    }
+                    if (bug.collidesdWith(ant)) {
+                        ant.decreaseEngergy(10);
+                    }
+                }
+
                 bug.live(this.turn);
             }
 

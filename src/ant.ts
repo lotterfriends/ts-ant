@@ -3,6 +3,7 @@ import { BoardObject } from "./boardObject";
 import { BoardPosition } from "./boardPosition";
 import { Sugar } from "./sugar";
 import { Apple } from "./apple";
+import { Bug } from "./bug";
 import { Anthill } from "./anthill";
 
 export abstract class Ant extends LivingObject {
@@ -15,6 +16,7 @@ export abstract class Ant extends LivingObject {
     public static TURN_AROUND_SPEED: number = 5;
 
     protected speed: number = 5;
+    private dead: boolean = false;
     private direction: number;
     private round: number;
     private currentRange: number = Ant.RANGE;
@@ -36,6 +38,7 @@ export abstract class Ant extends LivingObject {
     private initMouseListener(): void {
         this.getNode().addEventListener('click', (event) => {
             console.log('Speed', this.speed);
+            console.log('Energy', this.currentEnergy);
         });
     }
 
@@ -61,12 +64,12 @@ export abstract class Ant extends LivingObject {
 
     live(turn: number): void {
 
-        if (this.currentEnergy < Ant.ENERGY) {
-            this.currentEnergy++;
+        if (this.currentEnergy <= 0) {
+            return;
         }
 
-        if (this.currentEnergy <= 0) {
-            this.destroy();
+        if (this.currentEnergy < Ant.ENERGY) {
+            this.currentEnergy++;
         }
 
         this.turn++;
@@ -134,8 +137,26 @@ export abstract class Ant extends LivingObject {
         }
     }
 
+    decreaseEngergy(amount: number) {
+        this.currentEnergy -= amount;
+    }
+
+    public isDead(): boolean {
+        return this.dead;
+    }
+
+    destroy() {
+        this.dead = true;
+        this.drop();
+        super.destroy();
+    }
+
     public getLoad(): BoardObject {
         return this.currentLoad;
+    }
+
+    public getEngery(): number {
+        return this.currentEnergy;
     }
 
     abstract getTired(): void;
@@ -143,6 +164,8 @@ export abstract class Ant extends LivingObject {
     abstract reachApple(apple: Apple): void;
     abstract seesSugar(suger: Sugar): void;
     abstract reachSugar(suger: Sugar): void;
+    abstract seesBug(bug: Bug): void;
+    abstract reachBug(bug: Bug): void;
     abstract reachAnthill(): void;
 
 }
