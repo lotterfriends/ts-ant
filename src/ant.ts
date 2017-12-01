@@ -17,7 +17,6 @@ export abstract class Ant extends LivingObject {
     public static TURN_AROUND_SPEED: number = 5;
 
     protected speed: number = 5;
-    private dead: boolean = false;
     private direction: number;
     private round: number;
     private currentRange: number = Ant.RANGE;
@@ -141,12 +140,7 @@ export abstract class Ant extends LivingObject {
         this.currentEnergy -= amount;
     }
 
-    public isDead(): boolean {
-        return this.dead;
-    }
-
     destroy() {
-        this.dead = true;
         this.drop();
         super.destroy();
     }

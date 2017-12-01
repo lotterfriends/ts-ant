@@ -26,8 +26,8 @@ export class BoardObject extends Node {
         if (typeof viewRadius === 'number') {
             let viewRadiusObj: Node = new Node('span', 'viewRadius');
             viewRadiusObj.addCls('center');
-            viewRadiusObj.getNode().style.width = viewRadius * 2 + 'px';
-            viewRadiusObj.getNode().style.height = viewRadius * 2 + 'px';
+            viewRadiusObj.getNode().style.width = viewRadius + 'px';
+            viewRadiusObj.getNode().style.height = viewRadius + 'px';
             this.addItem(viewRadiusObj.getNode());
         }
     }

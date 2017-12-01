@@ -64,6 +64,12 @@ export class Board extends Node {
         }
     }
 
+    public static getDistanceBetweenPositions(object1: BoardPosition, object2: BoardPosition): number {
+        var a = object1.x - object2.x
+        var b = object1.y - object2.y
+        return Math.sqrt(a * a + b * b);
+    }
+
     public static getRandomAngle(): number {
         return Math.floor(Math.random() * 360);
     }

@@ -7,6 +7,8 @@ import { Bug } from "./bug";
 
 export class MyAnt extends Ant {
 
+    oldBugDistance: number;
+
     constructor(angle: number) {
         super(angle);
     }
@@ -52,8 +54,23 @@ export class MyAnt extends Ant {
         }
     }
 
+    private toDegrees(radians): number {
+        return radians * 180 / Math.PI;
+    };
+
     seesBug(bug: Bug) {
-        this.turnAround();
+
+        let currentDistance = Board.getDistanceBetweenPositions(this.position, bug.getPosition());
+        if (this.oldBugDistance > currentDistance) {
+            let angle = this.toDegrees(Math.atan2(bug.getPosition().y - this.position.y, bug.getPosition().x - this.position.x));
+            this.rotate(angle);
+            this.getPosition()
+        }
+        this.oldBugDistance = currentDistance;
+        if (this.getLoad()) {
+            this.drop();
+        }
+
     }
 
     reachBug(bug: Bug) {

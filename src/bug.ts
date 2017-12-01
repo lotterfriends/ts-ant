@@ -1,12 +1,14 @@
 import { LivingObject } from './livingObject';
 import { Board } from './board';
 import { Ant } from './ant';
+import { Anthill } from './anthill';
+import { BoardObject } from './boardObject';
 
 export class Bug extends LivingObject {
-    protected speed: number = .25;
+    protected speed: number = .45;
 
     constructor() {
-        super(Board.randomPosition(20), 10, 20, Board.getRandomAngle());
+        super(Board.randomPosition(20), 10, 30, Board.getRandomAngle());
         this.addCls('bug');
     }
 
@@ -19,7 +21,14 @@ export class Bug extends LivingObject {
         this.go();
     }
 
+
+    public seesAnthill() {
+        this.turnAround();
+    }
+
     public seesAnt(ant: Ant): void {
         this.goToTarget(ant);
     }
+
+
 }

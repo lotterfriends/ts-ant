@@ -40,6 +40,8 @@ class Game extends Node {
         this.sugar.push(new Sugar({ x: Board.randomNegative(20), y: Board.randomNegative(20) }));
         this.apples.push(new Apple({ x: Board.randomNegative(20), y: Board.randomNegative(50) }));
         this.bugs.push(new Bug());
+        this.bugs.push(new Bug());
+        this.bugs.push(new Bug());
         this.board.addItem(this.anthill.getNode());
         for (let sugar of this.sugar) {
             this.board.addItem(sugar.getNode());
@@ -179,6 +181,14 @@ class Game extends Node {
                             ant.destroy();
                         }
                     }
+
+                    if (bug.collidesdWith(this.anthill)) {
+                        bug.destroy();
+                    }
+                }
+
+                if (bug.sees(this.anthill)) {
+                    bug.seesAnthill();
                 }
 
                 bug.live(this.turn);

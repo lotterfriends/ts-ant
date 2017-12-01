@@ -7,6 +7,7 @@ export abstract class LivingObject extends BoardObject {
     protected position: BoardPosition;
     protected angle: number;
     protected speed: number;
+    protected dead: boolean = false;
 
     constructor(position: BoardPosition, radius: number, viewRadius?: number, angle?: number) {
         super(position, radius, viewRadius, angle);
@@ -64,6 +65,15 @@ export abstract class LivingObject extends BoardObject {
             direction = 180 - direction;
         }
         this.viewInDirection(direction);
+    }
+
+    public isDead(): boolean {
+        return this.dead;
+    }
+
+    public destroy(): void {
+        this.dead = true;
+        super.destroy();
     }
 
     abstract live(turn: number): void;
