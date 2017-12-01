@@ -12,6 +12,7 @@ export abstract class Ant extends LivingObject {
     public static HEIGHT: number = 10;
     public static ENERGY: number = 500;
     public static RANGE: number = 5000;
+    public static SPEED: number = 1;
 
     public static TURN_AROUND_SPEED: number = 5;
 
@@ -27,7 +28,6 @@ export abstract class Ant extends LivingObject {
     private turn: number = 0;
     private tired: boolean = false;
     private currentLoad: BoardObject;
-    private maxSpeed: number = 1;
 
     constructor(angle?: number) {
         super({ x: 0, y: 0 }, 5, 20, angle);
@@ -37,8 +37,7 @@ export abstract class Ant extends LivingObject {
 
     private initMouseListener(): void {
         this.getNode().addEventListener('click', (event) => {
-            console.log('Speed', this.speed);
-            console.log('Energy', this.currentEnergy);
+            console.log(this);
         });
     }
 
@@ -57,22 +56,23 @@ export abstract class Ant extends LivingObject {
                 this.speed = 0.05;
             }
         }
-        if (this.speed > this.maxSpeed) {
-            this.speed = this.maxSpeed;
+        if (this.speed > Ant.SPEED) {
+            this.speed = Ant.SPEED;
         }
     }
 
     live(turn: number): void {
 
+        this.turn = turn;
+
         if (this.currentEnergy <= 0) {
+            this.destroy();
             return;
         }
 
         if (this.currentEnergy < Ant.ENERGY) {
             this.currentEnergy++;
         }
-
-        this.turn++;
         this.tired = this.currentRange <= Ant.RANGE / 3 * 2
         if (this.tired) {
             this.getTired();

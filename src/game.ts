@@ -50,16 +50,6 @@ class Game extends Node {
         for (let bug of this.bugs) {
             this.board.addItem(bug.getNode());
         }
-        // var angle: number = 300.2;
-        // while (this.ants.length < this.maxAnts) {
-        //     var ant = new MyAnt(angle);
-        //     this.ants.push(ant);
-        //     this.board.addItem(ant.getNode());
-        //     angle -= 7.2;
-        //     if (angle < 0) {
-        //         angle += 360;
-        //     }
-        // }
         document.body.appendChild(this.getNode());
         this.initKeyboardListener();
     }
@@ -95,16 +85,7 @@ class Game extends Node {
             for (let ant of this.ants) {
 
                 if (ant.isDead()) {
-                    this.ants.splice(this.ants.indexOf(ant));
                     continue;
-                }
-
-                if (ant.getEngery() <= 0) {
-                    console.log(ant);
-                    this.ants.splice(this.ants.indexOf(ant));
-                    ant.destroy();
-                    continue;
-                    // TODO: decrease points
                 }
 
                 // all sugar
@@ -125,6 +106,16 @@ class Game extends Node {
                     // one, so they have to reach the center
                     if (BoardObject.collision(ant.getPosition(), ant.getSize(), apple.getPosition(), 1)) {
                         ant.reachApple(apple);
+                    }
+                }
+
+                for (let bug of this.bugs) {
+                    if (ant.sees(bug)) {
+                        ant.seesBug(bug);
+                    }
+
+                    if (ant.collidesdWith(bug)) {
+                        ant.reachBug(bug);
                     }
                 }
 
@@ -167,25 +158,26 @@ class Game extends Node {
                             antLoad.destroy();
                         }
                     }
-                    // let antLoad: BoardObject = ant.getLoad();
-                    // if (antLoad) {
-                    //     antLoad.destroy();
-                    //     console.log(antLoad.getNode());
-                    //     // TODO: add points;
-                    // }
+
                 }
+
                 ant.live(this.turn);
             }
 
             for (let bug of this.bugs) {
 
                 for (let ant of this.ants) {
+                    if (ant.isDead()) {
+                        continue;
+                    }
                     if (bug.sees(ant)) {
                         bug.seesAnt(ant);
-                        ant.seesBug(bug);
                     }
                     if (bug.collidesdWith(ant)) {
                         ant.decreaseEngergy(10);
+                        if (ant.getEngery() <= 0) {
+                            ant.destroy();
+                        }
                     }
                 }
 
