@@ -18,6 +18,7 @@ export class MyAnt extends Ant {
     }
 
     seesSugar(sugar: Sugar) {
+        console.log(sugar, this);
         if (!this.getLoad() && sugar.getAmount() > 0 && sugar.ants.length < 1) {
             this.goToTarget(sugar);
         }

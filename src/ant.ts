@@ -116,6 +116,9 @@ export abstract class Ant extends LivingObject {
             if (this.currentLoad instanceof Apple) {
                 this.currentLoad.stopCarrying(this);
             }
+            if (this.currentLoad instanceof Sugar) {
+                this.currentLoad.stopCarrying(this);
+            }
             this.currentLoad = undefined;
         }
     }

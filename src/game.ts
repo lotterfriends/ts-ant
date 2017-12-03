@@ -92,6 +92,10 @@ class Game extends Node {
 
                 // all sugar
                 for (let sugar of this.sugar) {
+                    if (!sugar.getAmount()) {
+                        sugar.destroy();
+                        continue;
+                    }
                     if (ant.sees(sugar)) {
                         ant.seesSugar(sugar);
                     }
@@ -147,11 +151,11 @@ class Game extends Node {
                     if (antLoad) {
                         if (antLoad && !ant.getLoad()) {
                             if (antLoad instanceof Sugar) {
-                                this.sugar.splice(this.sugar.indexOf(antLoad));
+                                // this.sugar.splice(this.sugar.indexOf(antLoad));
                                 antLoad.destroy(ant);
                             }
                             if (antLoad instanceof Apple) {
-                                this.apples.splice(this.apples.indexOf(antLoad));
+                                // this.apples.splice(this.apples.indexOf(antLoad));
                                 antLoad.destroy(ant);
                             }
                             // TODO: add points;

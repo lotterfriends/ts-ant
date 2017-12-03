@@ -7,6 +7,7 @@ export class Sugar extends DeadObject {
     amount: number;
     ants: Array<Ant> = [];
 
+
     constructor(position: BoardPosition, radius: number = 10, amount: number = 20, ant?: Ant) {
         super(position, radius);
         this.addCls('sugar');
@@ -21,13 +22,23 @@ export class Sugar extends DeadObject {
             return;
         }
         this.amount--;
-        if (this.radius <= 1) {
+        if (this.radius <= 1 && !this.amount) {
             this.radius = 0;
         } else {
             this.radius -= 0.5;
         }
-        this.setSize();
+        if (!this.amount) {
+            this.destroy();
+        } else {
+            this.setSize();
+        }
         return new Sugar(this.position, 1, 1, ant);
+    }
+
+    public stopCarrying(ant?: Ant): void {
+        if (ant) {
+            this.ants.splice(this.ants.indexOf(ant));
+        }
     }
 
     public getAmount(): number {
@@ -38,6 +49,7 @@ export class Sugar extends DeadObject {
         if (ant) {
             this.ants.splice(this.ants.indexOf(ant));
         }
+        this.amount = 0;
         super.destroy();
     }
 
