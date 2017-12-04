@@ -106,6 +106,10 @@ class Game extends Node {
 
                 // all apples
                 for (let apple of this.apples) {
+                    if (apple.isDelivered()) {
+                        apple.destroy();
+                        continue;
+                    }
                     if (ant.sees(apple)) {
                         ant.seesApple(apple);
                     }
@@ -155,6 +159,7 @@ class Game extends Node {
                                 antLoad.destroy(ant);
                             }
                             if (antLoad instanceof Apple) {
+                                antLoad.setDelivered(true);
                                 // this.apples.splice(this.apples.indexOf(antLoad));
                                 antLoad.destroy(ant);
                             }

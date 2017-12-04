@@ -4,6 +4,7 @@ import { Ant } from './ant';
 
 export class Apple extends DeadObject {
     private carrier: Array<Ant> = [];
+    private delivered: boolean = false;
 
     constructor(position: BoardPosition) {
         super(position, 20);
@@ -20,6 +21,14 @@ export class Apple extends DeadObject {
 
     public getCarrier(): Array<Ant> {
         return this.carrier;
+    }
+
+    public setDelivered(delivered: boolean) {
+        this.delivered = delivered;
+    }
+
+    public isDelivered() {
+        return this.delivered;
     }
 
     public destroy(ant?: Ant): void {
