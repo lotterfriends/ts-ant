@@ -1,5 +1,4 @@
 import { Ant } from "./ant";
-import { BoardPosition } from "./boardPosition";
 import { Sugar } from "./sugar";
 import { Apple } from "./apple";
 import { Board } from "./board";

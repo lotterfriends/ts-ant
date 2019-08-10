@@ -1,6 +1,4 @@
-import { Board } from "./board";
 import { DeadObject } from "./deadObject";
-import { BoardObject } from "./boardObject";
 import { BoardPosition } from "./boardPosition";
 
 export class Anthill extends DeadObject {

@@ -1,8 +1,6 @@
 import { LivingObject } from './livingObject';
 import { Board } from './board';
 import { Ant } from './ant';
-import { Anthill } from './anthill';
-import { BoardObject } from './boardObject';
 
 export class Bug extends LivingObject {
     protected speed: number = .45;

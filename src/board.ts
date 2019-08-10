@@ -1,6 +1,5 @@
 import { Node } from "./node";
 import { BoardPosition } from "./boardPosition";
-import { BoardObject } from "./boardObject";
 
 export class Board extends Node {
 

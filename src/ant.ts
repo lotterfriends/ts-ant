@@ -1,6 +1,5 @@
 import { LivingObject } from "./livingObject";
 import { BoardObject } from "./boardObject";
-import { BoardPosition } from "./boardPosition";
 import { Sugar } from "./sugar";
 import { Apple } from "./apple";
 import { Bug } from "./bug";
